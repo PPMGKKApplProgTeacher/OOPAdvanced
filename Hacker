@@ -1,0 +1,130 @@
+
+
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+
+public class Hacker
+{
+    public string username = "securityGod82";
+    private string password = "mySuperSecretPassw0rd";
+
+    public string Password
+    {
+        get => this.password;
+        set => this.password = value;
+    }
+
+    private int Id { get; set; }
+    public double BankAccountBalance { get; private set; }
+
+    public void DownloadAllBankAccountsInTheWorld()
+    {
+    }
+}
+
+
+public class Spy
+{
+    public string StealFieldInfo(string className, params string[] fieldsToInvestigate)
+    {
+        Type classType = Type.GetType(className);
+        FieldInfo[] fields = classType.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
+        
+        Object classInstance = Activator.CreateInstance(classType);
+        StringBuilder result = new StringBuilder();
+
+        result.AppendLine($"Class under investigation: {className}");
+
+        foreach (var field in fields.Where(f => fieldsToInvestigate.Contains(f.Name)))
+        {
+            result.AppendLine($"{field.Name} = {field.GetValue(classInstance)}");
+        }
+
+        return result.ToString().TrimEnd();
+    }
+
+    public string AnalyzeAccessModifiers(string className)
+    {
+        Type classType = Type.GetType(className);
+        FieldInfo[] fields = classType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
+        MethodInfo[] publicMethods = classType.GetMethods(BindingFlags.Instance | BindingFlags.Public);
+        MethodInfo[] nonPublicMethods = classType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic);
+
+        StringBuilder result = new StringBuilder();
+
+        foreach (var field in fields)
+        {
+            result.AppendLine($"{field.Name} must be private!");
+        }
+
+        foreach (var getter in publicMethods.Where(m => m.Name.StartsWith("get")))
+        {
+            result.AppendLine($"{getter.Name} have to be public!");
+        }
+
+        foreach (var setter in nonPublicMethods.Where(m => m.Name.StartsWith("set")))
+        {
+            result.AppendLine($"{setter.Name} have to be private!");
+        }
+
+        return result.ToString().TrimEnd();
+    }
+
+    public string RevealPrivateMethods(string className)
+    {
+        Type classType = Type.GetType(className);
+        MethodInfo[] privateMethods = classType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic);
+        StringBuilder result = new StringBuilder();
+
+        result.AppendLine($"All Private Methods of Class: {className}");
+        result.AppendLine($"Base Class: {classType.BaseType.Name}");
+
+        foreach (var method in privateMethods)
+        {
+            result.AppendLine(method.Name);
+        }
+
+        return result.ToString().TrimEnd();
+    }
+
+    public string CollectGettersAndSetters(string className)
+    {
+        Type classType = Type.GetType(className);
+        MethodInfo[] allMethods = classType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        StringBuilder result = new StringBuilder();
+
+        foreach (var method in allMethods.Where(m => m.Name.StartsWith("get")))
+        {
+            result.AppendLine($"{method.Name} will return {method.ReturnType}");
+        }
+
+        foreach (var method in allMethods.Where(m => m.Name.StartsWith("set")))
+        {
+            result.AppendLine($"{method.Name} will set field of {method.GetParameters().First().ParameterType}");
+        }
+
+        return result.ToString().TrimEnd();
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Spy spy = new Spy();
+
+        // Steal Field Info
+        Console.WriteLine(spy.StealFieldInfo("Hacker", "username", "password"));
+
+        // Analyze Access Modifiers
+        Console.WriteLine(spy.AnalyzeAccessModifiers("Hacker"));
+
+        // Reveal Private Methods
+        Console.WriteLine(spy.RevealPrivateMethods("Hacker"));
+
+        // Collect Getters and Setters
+        Console.WriteLine(spy.CollectGettersAndSetters("Hacker"));
+    }
+}
