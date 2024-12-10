@@ -103,6 +103,10 @@ public class Program
                     case "PrintAll":
                         iterator.PrintAll();
                         break;
+                        
+                    default:
+                        Console.WriteLine($"Command \"{command}\" Not Found");
+                        break;
                 }
             }
             catch (Exception ex)
