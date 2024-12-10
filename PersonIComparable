@@ -1,0 +1,77 @@
+using System;
+
+using System;
+using System.Collections.Generic;
+
+
+public class Person : IComparable<Person>
+{
+    public string Name { get; }
+    public int Age { get; }
+    public string City { get; }
+
+    public Person(string name, int age, string city)
+    {
+        Name = name;
+        Age = age;
+        City = city;
+    }
+
+    public int CompareTo(Person other)
+    {
+        if (other == null) return 1;
+
+        int nameComparison = Name.CompareTo(other.Name);
+        if (nameComparison != 0) return nameComparison;
+
+        int ageComparison = Age.CompareTo(other.Age);
+        if (ageComparison != 0) return ageComparison;
+
+        return City.CompareTo(other.City);
+    }
+}
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        List<Person> people = new List<Person>();
+
+        string input;
+        while ((input = Console.ReadLine()) != "END")
+        {
+            string[] personData = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string name = personData[0];
+            int age = int.Parse(personData[1]);
+            string city = personData[2];
+
+            people.Add(new Person(name, age, city));
+        }
+
+        int n = int.Parse(Console.ReadLine());
+        Person targetPerson = people[n - 1];
+
+        int equalCount = 0;
+        int notEqualCount = 0;
+
+        foreach (var person in people)
+        {
+            if (person.CompareTo(targetPerson) == 0)
+            {
+                equalCount++;
+            }
+            else
+            {
+                notEqualCount++;
+            }
+        }
+
+        if (equalCount > 1)
+        {
+            Console.WriteLine($"{equalCount} {notEqualCount} {people.Count}");
+        }
+        else
+        {
+            Console.WriteLine("No matches");
+        }
+    }
+}
