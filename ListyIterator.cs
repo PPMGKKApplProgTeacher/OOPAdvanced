@@ -62,3 +62,53 @@ public class ListyIterator<T> : IEnumerable<T>
         return GetEnumerator();
     }
 }
+
+
+
+using System;
+using System.Linq;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        ListyIterator<string> iterator = null;
+
+        string input;
+        while ((input = Console.ReadLine()) != "END")
+        {
+            string[] commandParts = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            string command = commandParts[0];
+
+            try
+            {
+                switch (command)
+                {
+                    case "Create":
+                        iterator = new ListyIterator<string>(commandParts.Skip(1));
+                        break;
+
+                    case "Move":
+                        Console.WriteLine(iterator.Move());
+                        break;
+
+                    case "HasNext":
+                        Console.WriteLine(iterator.HasNext());
+                        break;
+
+                    case "Print":
+                        iterator.Print();
+                        break;
+
+                    case "PrintAll":
+                        iterator.PrintAll();
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+}
