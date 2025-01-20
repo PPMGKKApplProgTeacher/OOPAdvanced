@@ -1,0 +1,142 @@
+using System;
+
+namespace ReflectionExample
+{
+    // Interface definition
+    public interface IWork
+    {
+        void Work();
+    }
+
+    public interface IDrive
+    {
+        void Drive();
+    }
+
+    // Base class
+    public class Animal
+    {
+        public string Species { get; set; }
+    }
+
+    // The class to be used for reflection
+    public class Person : Animal, IWork, IDrive
+    {
+        // Fields
+        public string FirstName;
+        public string LastName;
+        private int age;
+        private double salary;
+        public double Height;
+        public string JobTitle;
+        private string address;
+
+        // Constructors
+        public Person()
+        {
+            FirstName = "John";
+            LastName = "Doe";
+            age = 30;
+        }
+
+        public Person(string firstName, string lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            age = 25;
+        }
+
+        public Person(string firstName, string lastName, int age, double salary)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            this.age = age;
+            this.salary = salary;
+        }
+
+        // Methods
+        public void Introduce()
+        {
+            Console.WriteLine($"Hello, my name is {FirstName} {LastName}.");
+        }
+
+        public void ShowAge()
+        {
+            Console.WriteLine($"I am {age} years old.");
+        }
+
+        public void UpdateAddress(string newAddress)
+        {
+            address = newAddress;
+            Console.WriteLine($"Address updated to: {address}");
+        }
+
+        public void Work()
+        {
+            Console.WriteLine("I am working!");
+        }
+
+        public void Drive()
+        {
+            Console.WriteLine("I am driving.");
+        }
+
+        public double GetSalary()
+        {
+            return salary;
+        }
+
+        public void SetSalary(double newSalary)
+        {
+            salary = newSalary;
+        }
+
+        public string GetFullName()
+        {
+            return $"{FirstName} {LastName}";
+        }
+    }
+}
+
+
+
+
+Задача 1: Извличане на тип и име на класа
+
+Описание: Използвайте рефлексия, за да извлечете типа и името на класа Person.
+
+Задача 2: Извличане на базов клас на Person
+
+Описание: Използвайте рефлексия, за да откриете базовия клас на класа Person.
+
+Задача 3: Извличане на интерфейси, които реализира Person
+
+Описание: Използвайте рефлексия, за да извлечете всички интерфейси, които реализира класа Person.
+
+Задача 4: Създаване на инстанция на Person чрез рефлексия
+
+Описание: Използвайте рефлексия, за да създадете нов обект от типа Person чрез конструктора му по подразбиране.
+
+Задача 5: Извличане на всички полета на класа Person
+
+Описание: Използвайте рефлексия, за да извлечете всички полета на класа Person.
+
+Задача 6: Извикване на метод чрез рефлексия
+
+Описание: Използвайте рефлексия, за да извикате метод от клас Person и да го изпълните.
+
+Задача 7: Извикване на метод с параметри
+
+Описание: Използвайте рефлексия, за да извикате метод с параметри от клас Person.
+
+Задача 8: Промяна на стойността на полето чрез рефлексия
+
+Описание: Използвайте рефлексия, за да промените стойността на поле в обект на клас Person.
+
+Задача 9: Извикване на метод от интерфейс чрез рефлексия
+
+Описание: Използвайте рефлексия, за да извикате метод от интерфейс, който реализира класа Person.
+
+Задача 10: Извличане на информация за конструктори
+
+Описание: Използвайте рефлексия, за да извлечете всички конструктори на класа Person.
