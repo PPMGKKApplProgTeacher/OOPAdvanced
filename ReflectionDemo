@@ -1,0 +1,106 @@
+using System;
+using System.Reflection;
+
+namespace ReflectionDemo
+{
+    // Custom Attribute
+    [AttributeUsage(AttributeTargets.Method)]
+    public class DescriptionAttribute : Attribute
+    {
+        public string Description { get; }
+        public DescriptionAttribute(string description)
+        {
+            Description = description;
+        }
+    }
+
+    public interface IReflectable
+    {
+        void DisplayInfo();
+    }
+
+    public class ComplexClass : IReflectable
+    {
+        // Public Properties
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public DateTime BirthDate { get; set; }
+
+        // Private Fields
+        private string _secret;
+        private double _salary;
+
+        // Static Property
+        public static string Country { get; set; }
+
+        // Events
+        public event EventHandler ActionCompleted;
+
+        // Constructors
+        public ComplexClass(string name, int age, DateTime birthDate)
+        {
+            Name = name;
+            Age = age;
+            BirthDate = birthDate;
+            _secret = "Hidden";
+            _salary = 50000;
+        }
+
+        // Private Constructor
+        private ComplexClass(string secretCode)
+        {
+            _secret = secretCode;
+            _salary = 100000;
+        }
+
+        // Public Method
+        public void DisplayInfo()
+        {
+            Console.WriteLine($"Name: {Name}, Age: {Age}, BirthDate: {BirthDate.ToShortDateString()}");
+        }
+
+        // Private Method
+        private void ShowSalary()
+        {
+            Console.WriteLine($"Salary: {_salary}");
+        }
+
+        // Static Method
+        public static void ShowCountry()
+        {
+            Console.WriteLine($"Country: {Country}");
+        }
+
+        // Method with Attribute
+        [Description("This method performs an action and raises an event.")]
+        public void PerformAction()
+        {
+            Console.WriteLine("Performing action...");
+            OnActionCompleted(EventArgs.Empty);
+        }
+
+        // Method to raise the event
+        protected virtual void OnActionCompleted(EventArgs e)
+        {
+            ActionCompleted?.Invoke(this, e);
+        }
+
+        // Nested Class
+        public class NestedClass
+        {
+            public string NestedProperty { get; set; }
+
+            public void ShowNestedInfo()
+            {
+                Console.WriteLine($"Nested Property: {NestedProperty}");
+            }
+        }
+
+        // Indexer
+        public string this[int index]
+        {
+            get => index < 0 ? null : $"{Name} - {Age}";
+            set => Console.WriteLine($"Setting value: {value}");
+        }
+    }
+}
